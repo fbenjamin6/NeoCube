@@ -1,0 +1,57 @@
+@import 'tailwindcss';
+
+@font-face {
+  font-family: 'Prompt';
+  src: url('assets/fonts/Prompt/Prompt-Light.ttf') format('truetype');
+  font-weight: 300;
+}
+@font-face {
+  font-family: 'Prompt';
+  src: url('assets/fonts/Prompt/Prompt-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Prompt';
+  src: url('./assets/fonts/Prompt/Prompt-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+:root {
+  font-family: 'Prompt';
+  line-height: 1.5;
+  font-weight: 300;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 1);
+  background-color: #121212;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+main {
+  max-width: 1200px;
+  margin: auto;
+}
+
+.gradient {
+  background: radial-gradient(
+      circle at 93% 18%,
+      rgba(0, 64, 63, 0.4) 0%,
+      rgba(18, 18, 18, 0) 35%
+    ),
+    radial-gradient(
+      circle at 6% 64%,
+      rgba(24, 30, 84, 0.68) 0%,
+      rgba(18, 18, 18, 0) 36%
+    ),
+    radial-gradient(
+      circle at 66% 104%,
+      rgba(54, 18, 80, 0.4) 0%,
+      rgba(18, 18, 18, 0) 25%
+    );
+}
