@@ -1,10 +1,28 @@
 import { API_OPTIONS } from '../utils/constants'
 
+interface CoinFromAPI {
+  id: string
+  image: string
+  name: string
+  symbol: string
+  small: string
+  current_price: number
+  market_cap_change_percentage_24h: number
+  market_cap_rank: number
+  data: {
+    total_volume: number
+    price: number
+    market_cap: number
+    price_change_percentage_24h: { btc: number }
+    sparkline: string
+  }
+}
+
 export async function getTrendingCoins() {
   return await fetch('/api/v3/search/trending', API_OPTIONS)
     .then((res) => res.json())
     .then(({ coins }) => {
-      return coins.map(({ item: coin }) => {
+      return coins.map(({ item: coin }: { item: CoinFromAPI }) => {
         return {
           id: coin.id,
           rank: coin.market_cap_rank,

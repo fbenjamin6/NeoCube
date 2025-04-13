@@ -1,12 +1,25 @@
 import { API_OPTIONS } from '../utils/constants'
 
+interface CoinFromAPI {
+  id: string
+  image: string
+  name: string
+  symbol: string
+  current_price: number
+  market_cap_change_percentage_24h: number
+  market_cap_rank: number
+  price_change_percentage_24h: number
+  total_volume: number
+  market_cap: number
+}
+
 export async function getTopCoins() {
   console.log('request')
   return await fetch('/api/v3/coins/markets?vs_currency=usd', API_OPTIONS)
     .then((res) => res.json())
     .then((coins) => {
       const newCoins = coins.slice(0, 15)
-      return newCoins.map((coin: any) => {
+      return newCoins.map((coin: CoinFromAPI) => {
         const imageURL = coin.image.replace('/large/', '/small/')
 
         return {
