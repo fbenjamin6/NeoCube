@@ -10,23 +10,9 @@ interface CoinFromAPI {
   market_cap_rank: number
 }
 
-export async function searchCoins(query: string) {
-  const IDCoins = await fetch(
-    `https://api.coingecko.com/api/v3/search?query=${query}`,
-    API_OPTIONS
-  )
-    .then((res) => res.json())
-    .then((res) =>
-      res.coins
-        .slice(0, 10)
-        .map(({ id }: { id: string }) => id)
-        .join(', ')
-    )
-    .catch((err) => console.error(err))
-
-  if (!IDCoins) return undefined
-
-  const coins = await fetch(
+export async function searchMultipleCoins(ids: string[]) {
+  const IDCoins = ids.join(',')
+  return await fetch(
     `/api/v3/coins/markets?vs_currency=usd&ids=${IDCoins}`,
     API_OPTIONS
   )
@@ -35,6 +21,7 @@ export async function searchCoins(query: string) {
       return coins.map((coin: CoinFromAPI) => {
         const imageURL = coin.image.replace('/large/', '/small/')
 
+        console.log(coin)
         return {
           id: coin.id,
           image: imageURL,
@@ -50,6 +37,4 @@ export async function searchCoins(query: string) {
       })
     })
     .catch((err) => console.error(err))
-
-  return coins
 }

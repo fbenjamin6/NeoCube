@@ -7,3 +7,8 @@ export const API_OPTIONS = {
     'x-cg-demo-api-key': API_KEY,
   },
 }
+
+export const CATEGORIES = {
+  TOP: 'top',
+  TRENDING: 'trending',
+}

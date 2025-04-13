@@ -1,30 +1,28 @@
-import { FormEvent, useState } from 'react'
-import { searchCoins } from '../services/searchCoins'
-import { CaretDown, CaretUp, StarIcon } from './Icons'
-import { Coin } from '../types/types'
+import { useBrowser } from '../hooks/useBrowser'
+import { BrowserSkeleton } from '../skeletons/BrowserSkeleton'
+import { BrowserResults } from './BrowserResults'
 
 export function Browser() {
-  const [query, setQuery] = useState('')
-  const [coins, setCoins] = useState([])
+  const { handleSearch, handleQuery, query, loading, coins, firstSearch } =
+    useBrowser()
 
-  function handleSearch(e: FormEvent) {
-    e.preventDefault()
-    searchCoins(query).then((coins) => setCoins(coins))
-  }
+  console.log(coins)
 
   return (
-    <div className='max-w-[600px] w-full '>
+    <div className='max-w-[600px] min-h-[500px] w-full '>
       <form
         action=''
-        className='border border-neutral-600/30 flex justify-between w-full rounded-full mb-12'
+        className={`${
+          firstSearch.current ? '' : 'my-20'
+        } ease-in border border-neutral-600/30 flex justify-between w-full rounded-full mb-12 shadow-[0_0_4px_0_black]`}
         onSubmit={handleSearch}
       >
         <input
           type='text'
           placeholder='Ethereum...'
-          className='w-full px-5 py-2.5 rounded-l-full text-xl'
+          className='w-full px-5 py-2.5 rounded-l-full text-xl focus:outline-0'
           value={query}
-          onChange={(e) => setQuery(e.target.value)}
+          onChange={handleQuery}
         />
         <button
           type='submit'
@@ -35,59 +33,14 @@ export function Browser() {
       </form>
 
       <div
-        className='asd px-2.5 border border-neutral-600/20 bg-linear-35 from-[#00403f]/15 via-[#361250]/15 to-[#181e54]/15  max-h-[260px] overflow-scroll shadow-[0_0_6px_0_black] rounded-xl'
+        className={`${
+          firstSearch.current
+            ? 'opacity-100'
+            : 'opacity-100 pointer-events-none '
+        } transition-all duration-700 px-2.5 border border-neutral-600/20 bg-linear-35 from-[#00403f]/15 via-[#361250]/15 to-[#181e54]/15  h-[260px] overflow-scroll shadow-[0_0_6px_0_black] rounded-xl flex w-full`}
         style={{ scrollbarWidth: 'none' }}
       >
-        <ul className='flex flex-col '>
-          {coins?.map(
-            ({
-              id,
-              image,
-              coinName,
-              symbol,
-              price,
-              percentage_24hs,
-              rank,
-            }: Coin) => {
-              return (
-                <li
-                  key={id}
-                  className='flex items-center justify-between text-lg border-b border-neutral-600/20 px-2 py-3'
-                >
-                  <div className='flex items-center gap-2 font-normal'>
-                    <StarIcon />
-                    <img
-                      className='w-6.5'
-                      src={image}
-                      alt={`Icon of ${coinName} cryptocurrency`}
-                    />
-                    <p className='text-white max-w-[140px] overflow-hidden text-ellipsis whitespace-nowrap'>
-                      {coinName}
-                    </p>
-                    <span className='text-gray-400'>
-                      {symbol.toUpperCase()}
-                    </span>
-                    <span className='text-sm py-1 px-2 rounded-md bg-gray-700/20 text-gray-300'>
-                      #{rank}
-                    </span>
-                  </div>
-
-                  <div className='flex items-center gap-2'>
-                    <div
-                      className={`${
-                        percentage_24hs >= 0 ? 'text-green-700' : 'text-red-800'
-                      } flex items-center`}
-                    >
-                      {percentage_24hs >= 0 ? <CaretUp /> : <CaretDown />}{' '}
-                      <span>{percentage_24hs}%</span>
-                    </div>
-                    <p>{price}</p>
-                  </div>
-                </li>
-              )
-            }
-          )}
-        </ul>
+        {loading ? <BrowserSkeleton /> : <BrowserResults coins={coins} />}
       </div>
     </div>
   )
