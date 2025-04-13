@@ -19,7 +19,10 @@ interface CoinFromAPI {
 }
 
 export async function getTrendingCoins() {
-  return await fetch('/api/v3/search/trending', API_OPTIONS)
+  return await fetch(
+    'https://api.coingecko.com/api/v3/search/trending',
+    API_OPTIONS
+  )
     .then((res) => res.json())
     .then(({ coins }) => {
       return coins.map(({ item: coin }: { item: CoinFromAPI }) => {

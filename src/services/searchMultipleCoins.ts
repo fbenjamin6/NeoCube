@@ -13,7 +13,7 @@ interface CoinFromAPI {
 export async function searchMultipleCoins(ids: string[]) {
   const IDCoins = ids.join(',')
   return await fetch(
-    `/api/v3/coins/markets?vs_currency=usd&ids=${IDCoins}`,
+    `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${IDCoins}`,
     API_OPTIONS
   )
     .then((res) => res.json())

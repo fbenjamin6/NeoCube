@@ -15,7 +15,10 @@ interface CoinFromAPI {
 
 export async function getTopCoins() {
   console.log('request')
-  return await fetch('/api/v3/coins/markets?vs_currency=usd', API_OPTIONS)
+  return await fetch(
+    'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd',
+    API_OPTIONS
+  )
     .then((res) => res.json())
     .then((coins) => {
       const newCoins = coins.slice(0, 15)
