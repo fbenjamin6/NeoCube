@@ -1,5 +1,5 @@
 import { useState, FormEvent, useRef } from 'react'
-import { searchCoins } from '../services/searchCoins'
+import { searchCoinsByQuery } from '../services/searchCoins'
 
 export function useBrowser() {
   const [query, setQuery] = useState('')
@@ -16,7 +16,7 @@ export function useBrowser() {
     if (query.length < 3) return
     if (!firstSearch.current) firstSearch.current = true
     setLoading(true)
-    searchCoins(query).then((coins) => {
+    searchCoinsByQuery(query).then((coins) => {
       setCoins(coins)
       setLoading(false)
     })
